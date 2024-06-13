@@ -841,8 +841,8 @@ hue-6-2: #e6c07b
 <p>这类异味在Maven和Gradle中皆存在，产生原因主要是Maven和Gradle只会在无法找到对应依赖库时报错，而不会在出现冗余依赖库时报错。这意味着当模块中存在未被使用的依赖库时，构建工具并不会发出警告或报错信息。因此，开发者很容易忽视这些未使用的依赖库，错误地认为它们是模块所需的一部分。</p>
 <h3 id="2-项目粒度">2. 项目粒度</h3>
 <p><img src="file:////Users/chaicho/Library/CloudStorage/OneDrive-个人/DependencySmell/annoymous/sup/ChaProject.png" alt="项目粒度依赖异味特征实例">
-<em>Examples of characteristics of Project-Level Dependency Smell.</em>
-<em>图2</em></p>
+<em>图2 项目粒度依赖异味特征实例.</em></p>
+<iframe src="sup/ChaProject.pdf" style="width:100%; height:600px;" frameborder="0"></iframe>
 <h4 id="类别21-构建工具配置缺失项qq目中缺少对其所使用构建工具的配置">类别2.1 构建工具配置缺失:项qq目中缺少对其所使用构建工具的配置</h4>
 <p>在图2(a)对应的#PK-441中，项目中缺少了对Maven必要的文件如maven-wrapper.properties，导致无法准确确定使用的 Maven 版本。最终这种不一致性导致了开发环境与持续集成（CI）中 Maven 版本的不匹配，进而导致项目输出的不一致。</p>
 <p>这类异味在Maven和Gradle中皆存在，其产生原因是主要是项目开发者未对项目构建工具启动器进行配置。然而，相较于Gradle，在Maven中这类问题更容易出现。这主要是因为Gradle的启动器概念早在其诞生之初就已经存在，而且官方文档和教程一直都在强调使用启动器的重要性。此外，在创建新项目时，Gradle会自动添加启动器配置，进一步推广了其使用。相反，Maven是在借鉴了Gradle后才添加了启动器功能，这导致了相对于Gradle项目，Maven项目中配置缺失的情况更为普遍。</p>

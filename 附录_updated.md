@@ -15,9 +15,8 @@
 这类异味在Maven和Gradle中皆存在，产生原因主要是Java虚拟机（JVM）在提供的路径中发现多个同名类时，只会加载其中一个，并忽略其他的类。这类异味往往不易被察觉，尤其在构建可执行Jar包时，由于配置文件未将当前模块自身声明为依赖库，当遇到冲突类时，Maven和Gradle会优先选择依赖库中的类进行打包，而忽略当前模块中声明的类。
 
 
-![模块粒度依赖异味特征实例](./sup/ChaModule.png)
-*Examples of characteristics of Module-Level Dependency Smell.*
-*图1*
+<iframe src="./sup/ChaModule.pdf#zoom=page-fit" style="width:100%; height:859.5px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图1 模块粒度依赖异味特征实例</div>
 
 #### 类别1.2 外部类名冲突:模块的依赖库之间包含完全限定名相同的类(7/47)
 
@@ -45,9 +44,8 @@
 
 ### 2. 项目粒度
 
-![项目粒度依赖异味特征实例.](sup/ChaProject.png)
-*Examples of characteristics of Project-Level Dependency Smell.*
-*图2*
+<iframe src="sup/ChaProject.pdf#zoom=page-fit" style="width:100%; height:439.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图2 项目粒度依赖异味特征实例.</div>
 
 #### 类别2.1 构建工具配置缺失:项目中缺少对其所使用构建工具的配置
 
@@ -74,13 +72,11 @@
 在正文中，我们已经介绍了异味1.4、1.6和1.7的部分危害与对应触发场景。下文将继续介绍剩余异味的可能危害以及异味1.4、1.6和1.7未在正文中被介绍的危害，并介绍这些危害对应的触发场景。
 
 
-![异味1.1可能危害与对应触发场景](sup/1.1.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.1.*
-*图3*
+<iframe src="sup/1.1.pdf#zoom=page-fit" style="width:100%; height:521.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图3 异味1.1可能危害与对应触发场景</div>
 
-![异味1.2可能危害与对应触发场景](sup/1.2.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.2.*
-*图4*
+<iframe src="sup/1.2.pdf#zoom=page-fit" style="width:100%; height:556.5px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图4 异味1.2可能危害与对应触发场景</div>
 
 #### (1.1)内外类冲突
 
@@ -102,13 +98,11 @@ b. 运行时错误：其触发场景为项目运行时调用了仅存在于被�
 
 c. 运行时语义冲突：其触发场景为模块运行时调用了冲突类中签名相同但实现不同的方法。以图4(c)为例，模块mod的依赖库lib1和lib2中存在冲突类Dup和同签名方法methodLib，但其具体实现不同。当mod调用methodLib时就会出现语义冲突，预期调用的是lib2中的Dup类，对应的methodDup返回"lib2"，而实际调用的是lib1中的Dup类，对应的methodDup返回"lib1"。
 
-![异味1.3可能危害与对应触发场景](sup/1.3.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.3.*
-*图5*
+<iframe src="sup/1.3.pdf#zoom=page-fit" style="width:100%; height:618.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图5 异味1.3可能危害与对应触发场景</div>
 
-![异味1.4可能危害与对应触发场景](sup/1.4.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.4.*
-*图6*
+<iframe src="sup/1.4.pdf#zoom=page-fit" style="width:100%; height:559.5px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图6 异味1.4可能危害与对应触发场景</div>
 
 #### (1.3)库版本冲突
 
@@ -130,13 +124,11 @@ b. 运行时错误：其触发场景为模块运行时使用但未声明的依�
 
 c. 运行时语义冲突：其触发场景为模块直接使用但未声明的依赖库版本升级后出现签名相同但实现不同的情况。以图6(c)为例，模块mod中直接使用lib2:1.0.0中的方法getVersion，但并未在配置文件中声明lib2，而是通过依赖库lib1:4.0.0引入lib2:1.0.0作为传递依赖。然而lib1升级到4.0.1时同时升级lib2版本，引入传递依赖lib2:2.0.0，其中方法getVersion的签名并未改变，但其具体实现不同。当mod调用version时就会出现语义冲突，预期调用的是1.0.0版本中的getVersion，应返回"V1"，而实际调用的是2.0.0版本中的方法，返回的是"V2"。
 
-![异味1.5可能危害与对应触发场景](sup/1.5.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.5.*
-*图7*
+<iframe src="sup/1.5.pdf#zoom=page-fit" style="width:100%; height:712.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图7 异味1.5可能危害与对应触发场景</div>
 
-![异味1.6对当前模块的危害与对应触发场景](sup/1.6.1.png)
-*Possible Hazards to Current Module and Triggering Scenarios of Smell 1.6.*
-*图8*
+<iframe src="sup/1.6.1.pdf#zoom=page-fit" style="width:100%; height:629.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图8 异味1.6对当前模块的危害与对应触发场景</div>
 
 #### (1.5)未使用依赖
 
@@ -166,9 +158,8 @@ g. 下游模块运行时错误：以预期依赖范围为runtime，实际范围�
 
 h. 下游模块构建产物冗余：以预期范围为test，实际范围为compile为例，在图9(d)中，模块mod将直接依赖lib的依赖范围设置为compile，但其实际上仅在测试时被使用，预期依赖范围应为test。下游模块client在使用模块mod的同时，也引入了mod的依赖库lib作为传递依赖。将client打包为可执行JAR时，直接依赖和传递依赖中依赖范围为compile的依赖库都会被包含，但事实上lib仅在测试时使用而不需被打包，这就导致导致下游模块lib构建产物冗余。
 
-![异味1.6对下游模块的危害与对应触发场景](sup/1.6.2.png)
-*Possible Hazards to Downstream Module and Triggering Scenarios of Smell 1.6.*
-*图9*
+<iframe src="sup/1.6.2.pdf#zoom=page-fit" style="width:100%; height:622.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图9 异味1.6对下游模块的危害与对应触发场景</div>
 
 #### (1.7)依赖范围冲突
 
@@ -176,9 +167,8 @@ h. 下游模块构建产物冗余：以预期范围为test，实际范围为comp
 
 a. 构建失败：其触发场景为直接依赖的runtime和test范围覆盖了传递依赖的compile和provided范围。以图10(a)为例，模块mod有直接依赖lib1和lib2，而lib1也引入lib2作为传递依赖。在mod的依赖树中，lib2作为直接依赖的范围是test，而作为传递依赖的范围是compile。此时，lib2的最终范围是test，仅会在测试时出现。但在mod中虽然并未直接引入lib2中的类，但其中的类C以lib2中的类A为父类，这就导致mod构建时无法找到类A，进而出现构建失败。
 
-![异味1.7可能危害与对应触发场景](sup/1.7.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.7.*
-*图10*
+<iframe src="sup/1.7.pdf#zoom=page-fit" style="width:100%; height:345.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图10 异味1.7可能危害与对应触发场景</div>
 
 #### (1.8)依赖树冲突
 
@@ -192,17 +182,14 @@ c. 运行时语义冲突：其触发场景为模块运行时调用了冲突依�
 
 d. 维护成本增加：这类危害在出现异味时始终存在。以图11(a)为例，模块mod同时维护了Maven和Gradle对应的配置文件，但依赖库lib在Maven配置文件中的版本为1.0.0，而在Gradle配置文件中为2.0.0。开发者在进行版本升级时需要同步更新至所有构建工具对应的配置文件，导致维护成本增加。
 
-![异味1.8可能危害与对应触发场景](sup/1.8.png)
-*Possible Hazards and Triggering Scenarios of Smell 1.8.*
-*图11*
+<iframe src="sup/1.8.pdf#zoom=page-fit" style="width:100%; height:562.5px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图11 异味1.8可能危害与对应触发场景</div>
 
-![异味2.1可能危害与对应触发场景](./sup/2.1.png)
-*Possible Hazards and Triggering Scenarios of Smell 2.1.*
-*图12*
+<iframe src="./sup/2.1.pdf#zoom=page-fit" style="width:100%; height:169.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图12 异味2.1可能危害与对应触发场景</div>
 
-![异味2.2可能危害与对应触发场景](sup/2.2.png)
-*Possible Hazards and Triggering Scenarios of Smell 2.2.*
-*图13*
+<iframe src="sup/2.2.pdf#zoom=page-fit" style="width:100%; height:178.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图13 异味2.2可能危害与对应触发场景</div>
 
 #### (2.1)构建工具配置缺失
 
@@ -210,17 +197,14 @@ d. 维护成本增加：这类危害在出现异味时始终存在。以图11(a)
 
 a. 构建失败：其触发场景为项目实际使用的构建工具版本与预期不一致，且使用了仅存在于预期版本中的特性。以图12(a)为例，项目预期使用Gradle 4.1版本并使用了4.1中新引入的java-library特性，但实际上未对Gradle版本进行配置，导致实际使用的是本地Gradle的3.1版本。因此，无法识别java-library特性，导致构建失败。
 
-![异味2.3可能危害与对应触发场景](sup/2.3.png)
-*Possible Hazards and Triggering Scenarios of Smell 2.3.*
-*图14*
+<iframe src="sup/2.3.pdf#zoom=page-fit" style="width:100%; height:242.5px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图14 异味2.3可能危害与对应触发场景</div>
 
-![异味2.4可能危害与对应触发场景](sup/2.4.png)
-*Possible Hazards and Triggering Scenarios of Smell 2.4.*
-*图15*
+<iframe src="sup/2.4.pdf#zoom=page-fit" style="width:100%; height:154.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图15 异味2.4可能危害与对应触发场景</div>
 
-![异味2.5可能危害与对应触发场景](sup/2.5.png)
-*Possible Hazards and Triggering Scenarios of Smell 2.5.*
-*图16*
+<iframe src="sup/2.5.pdf#zoom=page-fit" style="width:100%; height:154.0px;" frameborder="0"></iframe>
+<div style="text-align: center; font-weight: bold;">图16 异味2.5可能危害与对应触发场景</div>
 
 #### (2.2)构建工具启动器JAR缺失
 
